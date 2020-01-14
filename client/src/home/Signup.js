@@ -43,29 +43,29 @@ const Signup = () => {
 
     return (
         <form id="signup" onSubmit={handleSubmit}>
-            <label>
+            <label className="fields">
                 Name:
-                <input name="name" required value={name} onChange={setName} />
+                <input className="inputs" name="name" required value={name} onChange={setName} />
             </label>
-            <label>
+            <label className="fields">
                 Birthday:
-                <input name="birthday" type="date" required value={birthday} onChange={setBirthday} />
+                <input className="inputs" name="birthday" type="date" required value={birthday} onChange={setBirthday} />
             </label>
-            <label>
+            <label className="fields">
                 Title:
-                <input name="title" required value={title} onChange={setTitle} />
+                <input className="inputs" name="title" required value={title} onChange={setTitle} />
             </label>
-            <label>
+            <label className="fields">
                 Company:
-                <input name="company" required value={company} onChange={setCompany} />
+                <input className="inputs" name="company" required value={company} onChange={setCompany} />
             </label>
-            <label>
+            <label className="fields">
                 Biography:
-                <textarea name="bio" required value={bio} onChange={setBio} />
+                <textarea className="inputs" name="bio" required value={bio} onChange={setBio} />
             </label>
-            <label>
+            <label className="fields">
                 Avatar:
-                <input name="avatar" type="url" required value={avatar} onChange={setAvatar} />
+                <input className="inputs" name="avatar" type="url" required value={avatar} onChange={setAvatar} />
             </label>
             <button>Sign up!</button>
             {isError && <div>Error, please try again</div>}

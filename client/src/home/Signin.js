@@ -21,25 +21,27 @@ const Signin = () => {
   
     return (
       <form className="login-form" onSubmit={handleSubmit}>
-        <label>
+        <label className="fields">
           Username:
           <input
+            className="inputs"
             name="username"
             required
             value={username}
             onChange={e => setUsername(e.target.value)}
           />
         </label>
-        <label>
+        <label className="fields">
           Password:
           <input
+            className="inputs"
             name="password"
             type="password"
             required
             value={password}
             onChange={e => setPassword(e.target.value)}
           />
-        </label>
+        </label><br/>
         <button>Log in!</button>
       </form>
     )
