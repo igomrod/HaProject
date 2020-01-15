@@ -19,7 +19,7 @@ const App = () => {
           <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
             <p>Welcome to the NUMBER MANAGER!</p>
-            <Link to="/login"><div>ENTRA!</div></Link>
+            <Link to="/login"><div className="enterbtn">ENTRA!</div></Link>
           </header>
           <Switch>
             <Route path="/login">
