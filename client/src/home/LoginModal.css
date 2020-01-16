@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
 * {
     font-family: 'Montserrat';
 }
+
 .loginModal-background {
     position: absolute;
     top: 0;
@@ -9,37 +11,53 @@
     left: 0;
     right: 0;
     z-index: 1;
-    background-color: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: 1.8s;
 }
 .loginModal-foreground {
     border: none;
-    width: 40vw;
-    height: 30vw;
-    background-color: rgb(237, 214, 255);
+    width: 50%;
+    height: 70%;
+    background-color: rgb(255, 255, 255, 0.7);
     border-radius: 30px;
-    
 }
 
 .container {
+    height: 70%;
+    width: 90%;
     margin-top: 5em;
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
+
 .signin-form {
+    height: 80%;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
     flex: 1 1 auto;
     max-width: 250px;
     border-right: 5px solid rgb(78, 39, 114);
     padding-right: 5em;
     font-family: 'Montserrat';
+    font-size: 1em;
 }
 .signin-form h1 {
     font-size: 2em;
 }
+.login-form {
+    flex: 1 1 auto;
+}
+
 .signup-form {
+    height: 80%;
+    width: 50%;
     flex: 1 1 auto;
     max-width: 250px;
     padding-left: 5em;
@@ -49,6 +67,7 @@
     align-items: center;
     flex-direction: column;
 }
+
 .fields {
     display: flex;
     justify-content: space-between;
