@@ -1,31 +1,36 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import { Provider, useSelector, useDispatch } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
-import { save, load } from "redux-localstorage-simple"
-import rootReducer from './reducers'
-import logo from './logo.svg';
 import LoginModal from './home/LoginModal'
 import './App.css';
+import generateStore from './reducers';
 
+const Content = () => {
+  const dispatch = useDispatch()
+  const user = useSelector(s => s.user)
+  const handleLogin = () => dispatch({type:'showModal', modalType: 'login'})
+  return (
+    <div className="App">
+      <header className="App-header">
+        <p>Bienvenido al Gestor de Dorsales</p>
+        <Link to="/login" onClick={handleLogin}><div className="enterbtn">ENTRA!</div></Link>
+      </header>
+      <Switch>
+        <Route path="/login">
+          <LoginModal />
+        </Route>
+      </Switch>
+    </div>
+  )
+}
 
-const store = createStore(rootReducer, load(), applyMiddleware(save()))
+const store = generateStore()
 
 const App = () => {
   return (
     <Provider store={store}>
       <Router>
-        <div className="App">
-          <header className="App-header">
-            <p>Welcome to the NUMBER MANAGER!</p>
-            <Link to="/login"><div className="enterbtn">ENTRA!</div></Link>
-          </header>
-          <Switch>
-            <Route path="/login">
-              <LoginModal />
-            </Route>
-          </Switch>
-        </div>
+        <Content />
       </Router>
     </Provider>
   );

@@ -4,15 +4,14 @@ import { useDispatch } from 'react-redux'
 const Signin = () => {
     const dispatch = useDispatch()
     const login = (user) => dispatch({ type: 'login', user })
-    const [ username, setUsername ] = useState('')
+    const [ email, setEmail ] = useState('')
     const [ password, setPassword ] = useState('')
     const handleSubmit = (e) => {
       e.preventDefault()
       // Aquí haríamos fetch para hacer login, y
       // obtendríamos los datos del user y un token...
-      console.log('Login:', username, password)
+      console.log('Login:', email, password)
       login({
-        username,
         email: 'demo-email@spamherelots.com',
         avatar: 'https://i.imgur.com/VVq6KcT.png',
         token: 'fake-token'
@@ -22,13 +21,13 @@ const Signin = () => {
     return (
       <form className="login-form" onSubmit={handleSubmit}>
         <label className="fields">
-          Username:
+          Email:
           <input
             className="inputs"
-            name="username"
+            name="email"
             required
-            value={username}
-            onChange={e => setUsername(e.target.value)}
+            value={email}
+            onChange={e => setEmail(e.target.value)}
           />
         </label>
         <label className="fields">

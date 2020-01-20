@@ -22,7 +22,9 @@
     width: 50%;
     height: 70%;
     background-color: rgb(255, 255, 255, 0.7);
-    border-radius: 30px;
+    border-radius: 10px;
+    font-size: calc(5px + 1vmin);
+
 }
 
 .container {
@@ -46,7 +48,6 @@
     border-right: 5px solid rgb(78, 39, 114);
     padding-right: 5em;
     font-family: 'Montserrat';
-    font-size: 1em;
 }
 .signin-form h1 {
     font-size: 2em;
@@ -73,6 +74,7 @@
     justify-content: space-between;
     width: 80%;
     margin-bottom: 1em;
+    font-size: 1em;
 }
 .inputs {
     width: 80%;

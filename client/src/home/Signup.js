@@ -10,18 +10,16 @@ const useFormField = () => {
 
 const Signup = () => {
     const [name, setName] = useFormField()
-    const [birthday, setBirthday] = useFormField()
-    const [title, setTitle] = useFormField()
-    const [company, setCompany] = useFormField()
-    const [bio, setBio] = useFormField()
-    const [avatar, setAvatar] = useFormField()
-
+    const [surname, setSurname] = useFormField()
+    const [email, setEmail] = useFormField()
+    const [password, setPassword] = useFormField()
+    
     const history = useHistory()
     const [isError, setError] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const user = { name, birthday, title, company, bio, avatar }
+        const user = { name, surname, email, password }
         setError(false)
         try {
             const ret = await fetch('http://localhost:8080/users', {
@@ -48,24 +46,16 @@ const Signup = () => {
                 <input className="inputs" name="name" required value={name} onChange={setName} />
             </label>
             <label className="fields">
-                Birthday:
-                <input className="inputs" name="birthday" type="date" required value={birthday} onChange={setBirthday} />
+                Surname:
+                <input className="inputs" name="surname" required value={surname} onChange={setSurname} />
             </label>
             <label className="fields">
-                Title:
-                <input className="inputs" name="title" required value={title} onChange={setTitle} />
+                Email:
+                <input className="inputs" name="email" required value={email} onChange={setEmail} />
             </label>
             <label className="fields">
-                Company:
-                <input className="inputs" name="company" required value={company} onChange={setCompany} />
-            </label>
-            <label className="fields">
-                Biography:
-                <textarea className="inputs" name="bio" required value={bio} onChange={setBio} />
-            </label>
-            <label className="fields">
-                Avatar:
-                <input className="inputs" name="avatar" type="url" required value={avatar} onChange={setAvatar} />
+                Password:
+                <textarea className="inputs" name="password" required value={password} onChange={setPassword} />
             </label>
             <button>Sign up!</button>
             {isError && <div>Error, please try again</div>}

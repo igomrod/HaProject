@@ -1,11 +1,18 @@
 import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+
 import Signin from './Signin'
 import Signup from './Signup'
 import './LoginModal.css'
 
 const LoginModal = () => {
+  const dispatch = useDispatch()
+  const currentModal = useSelector(s => s.modal)
+  if(!currentModal) return false
+  const handleClose = () => dispatch({ type: 'hideModal' })
+
   return (
-    <div className="loginModal-background">
+    <div className="loginModal-background" onClick={handleClose}>
       <div className="loginModal-foreground">
         <h1>Inicie sesión o regístrese, es gratis!</h1>
         <div className="container">

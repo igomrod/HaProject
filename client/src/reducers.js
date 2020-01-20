@@ -1,32 +1,5 @@
-import { combineReducers } from 'redux'
+import { createStore, combineReducers, compose} from 'redux'
 
-/*
-const rootReducer = (state, action) => {
-    switch(action.type) {
-      case 'login':
-        return { ...state, user: action.user }
-      case 'logout':
-        return { ...state, user: null }
-      case 'tema':
-          return { ...state, tema: action.tema }
-      case 'products':
-          return { ...state, products: action.products }
-      case 'showModal':
-          return { ...state, modal: {
-            type: action.modalType
-          } }
-      case 'hideModal':
-          return { ...state, modal: null }
-      case 'visit':
-          return { ...state, visits: state.visits + 1 }
-      default:
-        return state || {
-          tema: 'dark',
-          visits: 0
-        }
-    }
-}
-*/
 const userReducer = (state, action) => {
   switch(action.type) {
     case 'login': return action.user
@@ -43,24 +16,21 @@ const modalReducer = (state, action) => {
   }
 }
 
-const productReducer = (state, action) =>
-  action.type === 'products' ? action.products : state || null
-
-  const temaReducer = (state, action) =>
-  action.type === 'tema' ? action.tema : state || 'dark'
-
-  const visitReducer = (state, action) =>
-  action.type === 'visit' ? state + 1 : state || 0
-
 const rootReducer = combineReducers({
   user: userReducer,
   modal: modalReducer,
-  products: productReducer,
-  tema: temaReducer,
-  visits: visitReducer
+  
 })
 
-export default rootReducer
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+
+export default function generateStore () {
+  const store = createStore (
+    rootReducer,
+    composeEnhancers()
+  )
+  return store
+}
 
 
 
