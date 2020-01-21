@@ -8,6 +8,7 @@ const Signin = () => {
     const [ password, setPassword ] = useState('')
     const handleSubmit = (e) => {
       e.preventDefault()
+      dispatch({type: 'hideModal'}) 
       // Aquí haríamos fetch para hacer login, y
       // obtendríamos los datos del user y un token...
       console.log('Login:', email, password)

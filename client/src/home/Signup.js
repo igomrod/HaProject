@@ -55,7 +55,7 @@ const Signup = () => {
             </label>
             <label className="fields">
                 Password:
-                <textarea className="inputs" name="password" required value={password} onChange={setPassword} />
+                <input className="inputs" name="password" required value={password} onChange={setPassword} />
             </label>
             <button>Sign up!</button>
             {isError && <div>Error, please try again</div>}

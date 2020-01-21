@@ -10,10 +10,11 @@ const LoginModal = () => {
   const currentModal = useSelector(s => s.modal)
   if(!currentModal) return false
   const handleClose = () => dispatch({ type: 'hideModal' })
+  const handleClick = (e) => e.stopPropagation()
 
   return (
     <div className="loginModal-background" onClick={handleClose}>
-      <div className="loginModal-foreground">
+      <div className="loginModal-foreground" onClick={handleClick}>
         <h1>Inicie sesión o regístrese, es gratis!</h1>
         <div className="container">
           
