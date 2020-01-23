@@ -1,19 +1,29 @@
-const http = require("http");
-const fs = require("fs");
+require('dotenv').config()
 
-const express = require("express");
-const multer = require("multer");
-const csv = require("csvtojson");
+const fs = require('fs')
+const http = require('http')
+const express = require('express')
+const bodyParser = require('body-parser')
+
+const multer = require('multer')
+const upload = multer({ dest: "src/storage/" });
+
+const csv = require('csvtojson')
+const cors = require('cors')
+
+// const utils = require('./utils')
+const db = require('./db')
 
 const Router = express.Router;
-const upload = multer({ dest: "src/storage/" });
 const app = express();
 const router = new Router();
 const server = http.createServer(app);
 const port = 8080;
 
+app.use(bodyParser.json())
+app.use(cors())
+
 // Middleware de bodyParser, permitiendo el uso de Multer:
-const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
 
@@ -23,21 +33,26 @@ const urlencodedParser = bodyParser.urlencoded({ extended: false })
 // }
 
 // Endpoint para subir archivo:
-router.post("/", upload.single("file"), (req, res) => {
+router.post('/upload', upload.single("file"), async (req, res) => {
 
-  csv({})
-    .fromFile(req.file.path)
-    .then(jsonObj => {
-      return new Promise((resolve, reject) => {
-        console.log(jsonObj);
-        res.status(200).send();
-        // Procesar líneas y enviar a base de datos.
-        fs.unlinkSync(req.file.path); // Borra archivo temporal.
-      });
-    });
+  const csvObject = await csv().fromFile(req.file.path)
+  try {
+    const u = req.body
+    const { rows } = await db.query(
+      'INSERT INTO tutors(Nombre_TUTOR, Apellidos_TUTOR, Email_TUTOR, DNI_TUTOR, Relacion) ' +
+      'VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [u.tutor_name, u.surname, u.email, u.dni, u.relationship]
+    )
+    res.json(rows[0])
+  } catch (e) {
+    res.status(400)
+    res.json({ error: e.message })
+  }
+  fs.unlinkSync(req.file.path); // Borra archivo temporal.
+  res.status(200).send();
 });
 
-app.use("/upload", router);
+app.use(router);
 
 // Iniciamos el servidor:
 function startServer() {
