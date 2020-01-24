@@ -35,15 +35,32 @@ const urlencodedParser = bodyParser.urlencoded({ extended: false })
 // Endpoint para subir archivo:
 router.post('/upload', upload.single("file"), async (req, res) => {
 
-  const csvObject = await csv().fromFile(req.file.path)
+  const csvObject = await csv({ ignoreEmpty: true }).fromFile(req.file.path)
+  console.log(csvObject);
   try {
-    const u = req.body
-    const { rows } = await db.query(
-      'INSERT INTO tutors(Nombre_TUTOR, Apellidos_TUTOR, Email_TUTOR, DNI_TUTOR, Relacion) ' +
-      'VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [u.tutor_name, u.surname, u.email, u.dni, u.relationship]
+    const client = await db.pool.connect()
+    const arrCSV = [];
+    csvObject.forEach((element) => {
+      if (element.Nombre_TUTOR) {
+        const resultTutor = db.pool.query('INSERT INTO runrun.tutors (tutor_name, surname, email, dni, relationship) ' +
+          'VALUES ($1, $2, $3, $4, $5) RETURNING *',
+          [element.Nombre_TUTOR, element.Apellidos_TUTOR, element.Email_corredor, element.DNI_TUTOR, element.Relacion]);
+        arrCSV.push(resultTutor);
+      }
+      const resultParticipant = db.pool.query(
+        'INSERT INTO runrun.participants (participant_name, surname, email, gender, birthdate, team ) ' +
+        'VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+        [element.Nombre_corredor, element.Apellidos_corredor, element.Email_corredor, element.Sexo_corredor, element.Fecha_nacimiento_corredor, element.Nombre_equipo]);
+      arrCSV.push(resultParticipant);
+    });
+    Promise.all(arrCSV).then(
+      res => {
+        client.release();
+        res.send();
+      },
+      err => res.send(err)
     )
-    res.json(rows[0])
+
   } catch (e) {
     res.status(400)
     res.json({ error: e.message })
