@@ -9,20 +9,28 @@ import Private from './private/Private'
 const Content = () => {
   const dispatch = useDispatch()
   const user = useSelector(s => s.user)
-  const handleLogin = () => dispatch({type:'showModal', modalType: 'login'})
-  
+  const handleLogin = () => dispatch({ type: 'showModal', modalType: 'login' })
+
   return (
     <div className="App">
-      {user && <Private/>}
+      {user && <Private />}
       <header className="App-header">
-        <p>Bienvenido al Gestor de Dorsales</p>
-        <Link to="/login" onClick={handleLogin}><div className="enterbtn">ENTRA!</div></Link>
+        <h1 className='title'>RUN-RUN</h1>
+
       </header>
-      <Switch>
-        <Route path="/login">
-          <LoginModal />
-        </Route>
-      </Switch>
+      <main className="App-main">
+        <h2 className="subtitle">Bienvenido/a al Gestor de Dorsales</h2>
+        <Link to="/login" className="entrar" onClick={handleLogin}>ENTRA!</Link>
+        <Switch>
+          <Route path="/login">
+            <LoginModal />
+          </Route>
+        </Switch>
+        <footer>
+          <p>©2020 por Dorsales Team para Hack a Boss </p>
+        </footer>
+      </main>
+
     </div>
   )
 }

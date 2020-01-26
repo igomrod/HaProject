@@ -31,7 +31,7 @@ const Signup = () => {
                 }
             })
             const data = await ret.json()
-            // localStorage.setItem('token', data.token) // Esto solo en login, para guardar el token
+            localStorage.setItem('token', data.token) // Esto solo en login, para guardar el token
             history.push(`/users/${data.id}`)
         } catch (err) {
             console.warn('Error:', err)

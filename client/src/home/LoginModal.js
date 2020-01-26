@@ -15,18 +15,10 @@ const LoginModal = () => {
   return (
     <div className="loginModal-background" onClick={handleClose}>
       <div className="loginModal-foreground" onClick={handleClick}>
-        <h1>Inicie sesión o regístrese, es gratis!</h1>
-        <div className="container">
-          
           <div className="signin-form">
-            <h1>Iniciar sesión</h1>
+            <h3 className='modalHeading'>Iniciar sesión</h3>
             <Signin />
           </div>
-          <div className="signup-form">
-            <h1>Registrarse</h1>
-            <Signup />
-          </div>
-        </div>
       </div>
     </div>
   )
