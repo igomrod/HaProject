@@ -8,7 +8,7 @@ const useFormField = () => {
     return [value, e => setValue(e.target.value)]
 }
 
-const Signup = () => {
+const SignUp = () => {
     const [name, setName] = useFormField()
     const [surname, setSurname] = useFormField()
     const [email, setEmail] = useFormField()
@@ -64,4 +64,4 @@ const Signup = () => {
 }
 
 
-export default Signup
+export default SignUp

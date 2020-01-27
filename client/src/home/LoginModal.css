@@ -36,15 +36,12 @@
         
 }
 
-
 .signin-form {
-
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     flex: 1 1 auto;
-  
 }
 .signin-form formHeading {
     font-size: 2em;

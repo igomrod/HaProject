@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
+import { BrowserRouter as Switch, Route, Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import SignUp from './SignUp'
 
-const Signin = () => {
+const SignIn = () => {
   const dispatch = useDispatch()
   const login = (user) => dispatch({ type: 'login', user })
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const handleClose = () => dispatch({ type: 'hideModal' })
+  const handleSignUp = () => dispatch({ type: 'showModal', modalType: 'signup' })
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch({ type: 'hideModal' })
@@ -46,14 +50,19 @@ const Signin = () => {
             onChange={e => setPassword(e.target.value)}
           />
       </div>
-      <p>Si todavía no está registrado pulse <a href='#'>aquí</a></p>
+      <p>Si todavía no está registrado pulse <Link to='/signup' onClick={handleSignUp}>aquí</Link></p>
+      <Switch>
+        <Route path="/signup">
+          <SignUp />
+        </Route>
+      </Switch>
       <div className="buttonsContainer">
         <button>Entrar</button>
-        <button>Cancelar</button>
+        <button onClick={handleClose}>Cancelar</button>
       </div>
      
     </form>
   )
 }
 
-export default Signin
+export default SignIn

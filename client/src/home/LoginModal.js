@@ -1,8 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-
-import Signin from './Signin'
-import Signup from './Signup'
+import SignIn from './SignIn'
 import './LoginModal.css'
 
 const LoginModal = () => {
@@ -17,7 +15,7 @@ const LoginModal = () => {
       <div className="loginModal-foreground" onClick={handleClick}>
           <div className="signin-form">
             <h3 className='modalHeading'>Iniciar sesión</h3>
-            <Signin />
+            <SignIn />
           </div>
       </div>
     </div>
