@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,900&display=swap');
 
 .App {
   text-align: center;
@@ -5,7 +6,7 @@
 }
 
 .App-header {
-  font-family: sans-serif;
+  font-family: 'Montserrat';
   background: linear-gradient(90deg,#73AC97,#267356);
   height: 12vmin;
   display: flex;

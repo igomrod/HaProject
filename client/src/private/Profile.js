@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import './private.css'
+import './Profile.css'
 
 const Private = () => {
   const user = useSelector(s => s.user)
