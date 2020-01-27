@@ -27,10 +27,11 @@ app.use(cors())
 const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
 
-// Rutas para procesar datos sin Multer:
-// app.post('/some_route_with_incoming_data', urlencodedParser, jsonParser, (req, res) => { 
-//   ...
-// }
+// Endpoint para crear evento:
+
+
+
+
 
 // Endpoint para subir archivo:
 router.post('/upload', upload.single("file"), async (req, res) => {
@@ -41,22 +42,37 @@ router.post('/upload', upload.single("file"), async (req, res) => {
     const client = await db.pool.connect()
     const arrCSV = [];
     csvObject.forEach((element) => {
-      if (element.Nombre_TUTOR) {
-        const resultTutor = db.pool.query('INSERT INTO runrun.tutors (tutor_name, surname, email, dni, relationship) ' +
-          'VALUES ($1, $2, $3, $4, $5) RETURNING *',
-          [element.Nombre_TUTOR, element.Apellidos_TUTOR, element.Email_corredor, element.DNI_TUTOR, element.Relacion]);
-        arrCSV.push(resultTutor);
-      }
-      const resultParticipant = db.pool.query(
-        'INSERT INTO runrun.participants (participant_name, surname, email, gender, birthdate, team ) ' +
-        'VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-        [element.Nombre_corredor, element.Apellidos_corredor, element.Email_corredor, element.Sexo_corredor, element.Fecha_nacimiento_corredor, element.Nombre_equipo]);
-      arrCSV.push(resultParticipant);
+      // Cargar todos los participantes:
+      const insertParticipant = db.pool.query(
+        'INSERT INTO runrun.participants (participant_name, surname, dni, email, gender, birthdate, team) ' +
+        'VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+        [element.Nombre_CORREDOR, element.Apellidos_CORREDOR, element.DNI_CORREDOR, element.Email_CORREDOR,
+        element.Sexo_CORREDOR, element.Fecha_nacimiento_CORREDOR, element.Nombre_EQUIPO]);
+      arrCSV.push(insertParticipant);
     });
     Promise.all(arrCSV).then(
       res => {
-        client.release();
-        res.send();
+        const arrCSV = [];
+        // Buscar si tiene tutor:
+        csvObject.forEach((element) => {
+          if (element.Nombre_TUTOR) {
+            const searchTutor = db.pool.query(`SELECT id_participant FROM runrun.participants WHERE participant_name = 
+            '${element.Nombre_CORREDOR}' AND participant_surname = '${element.Apellidos_TUTOR}' AND participant_email = 
+            '${element.Email_TUTOR}'`);
+            // Actualizamos el participante con el ID del corredor que será su tutor:
+            let assignTutor = db.pool.query(`UPDATE runrun.participants SET id_tutor = '${searchTutor}' WHERE participant_name =
+            '${element.Nombre_corredor}' AND participant_surname = '${element.Apellidos_corredor}' AND participant_email =
+            '${element.Email_corredor}' AND participant_birthdate = '${element.Fecha_nacimiento_corredor}`);
+            arrCSV.push(assignTutor);
+          }
+          Promise.all(arrCSV).then(
+            res => {
+              client.release();
+              res.send();
+            },
+            err => res.send(err)
+          )
+        });
       },
       err => res.send(err)
     )
