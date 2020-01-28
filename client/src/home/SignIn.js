@@ -49,7 +49,7 @@ const SignIn = () => {
           onChange={e => setPassword(e.target.value)}
         />
       </div>
-      <p>Si todavía no está registrado pulse <Link to='/signup' onClick={handleSignUp}>aquí</Link></p>
+      <p>Si todavía no está registrado pulse <Link to='/register' onClick={handleSignUp}>aquí</Link></p>
 
       <div className="buttonsContainer">
         <button><Link to='/event' className="initSesion">Inicia Sesión</Link></button>
