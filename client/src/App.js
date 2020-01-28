@@ -1,25 +1,54 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { Provider, useSelector, useDispatch } from 'react-redux'
+import Modals from './home/Modals'
 import './App.css';
+import generateStore from './reducers'
+import Event from './private/Event'
 
-function App() {
+const Content = () => {
+  const dispatch = useDispatch()
+  const user = useSelector(s => s.user)
+  const handleSignin = () => dispatch({ type: 'showModal', modalType: 'signin' })
+
   return (
     <div className="App">
+      {user && <Event />}
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1 className='title'>RUN-RUN</h1>
       </header>
+      <main className="App-main">
+        <h2 className="subtitle">Bienvenido/a al Gestor de Dorsales</h2>
+        <Link to="/signin" className="entrar" onClick={handleSignin}>ENTRA!</Link>
+        <Switch>
+          <Route path="/signin">
+            <Modals/>
+          </Route>
+          <Route path="/signup">
+            <Modals/>
+          </Route>
+          <Route path="/signup">
+            <Event/>
+          </Route>
+        </Switch>
+        <footer>
+          <p>©2020 por Dorsales Team para Hack a Boss </p>
+        </footer>
+      </main>
+
     </div>
+  )
+}
+
+const store = generateStore()
+
+const App = () => {
+  return (
+    <Provider store={store}>
+      <Router>
+        <Content />
+      </Router>
+    </Provider>
   );
 }
 

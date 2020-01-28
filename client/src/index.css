@@ -1,13 +1,103 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,900&display=swap');
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/******* FONTS ********/
+* {
+  font-family: 'Montserrat';
 }
+
+/****** LAYOUT ********/
+
+
+
+/****** FORMS *******/
+form{
+  text-align: left;
+  width:90%;
+  padding:5%;
+}
+.form-field{
+  margin-bottom: 2em;
+}
+
+.form-field label{
+  display:block;
+  justify-content: space-between;
+  margin-bottom: 1em;
+  font-size: 1.5em;
+  
+}
+
+.form-field input {
+  border-radius: 5px;
+  border: 1px solid #73AC97;
+  padding-left: 0.5em;
+  height: 3em;
+  width:100%;
+  font-size: 1.5em;
+  
+}
+
+/***** MODALS ******/
+.modalHeading {
+  color: #003924;
+  margin-top: 1em;
+  font-weight: 900;
+  font-size: 2em;
+  text-transform: uppercase;
+}
+
+/***** BUTTONS & LINKS *******/
+a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 700;
+}
+/*a:hover {
+  color: #0E563b;
+}*/
+.login-form p a{
+  color: #267356;
+  transition: .5s;
+
+}
+.login-form p a:hover{
+  color: #0E563b;
+}
+
+.buttonsContainer{
+  text-align: center;
+  padding-top: 2em;
+}
+
+button{
+  width: 15%;
+  border: none;
+  border-radius: 80px;
+  color: #fff;
+  font-size: 1.2em;
+  padding: 0.5em;
+  margin:0.5em;
+  font-weight: bold;
+  background-color:#267356;
+  outline: none;
+  cursor: pointer;
+  transition: .5s;
+  min-width: 10em;
+}
+
+button:hover {
+  background-color:#0E563b;
+}
+
+@media (max-width:768px){
+  a{
+    width: 100%;
+  }
+
+}
+

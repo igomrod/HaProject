@@ -1,0 +1,17 @@
+.private-main {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .private-main header {
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    text-align: right;
+  }
+  
+  .private-middle {
+    display: flex;
+  }
+  
+  
