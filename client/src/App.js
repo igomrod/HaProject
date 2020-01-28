@@ -21,13 +21,13 @@ const Content = () => {
         <h2 className="subtitle">Bienvenido/a al Gestor de Dorsales</h2>
         <Link to="/signin" className="entrar" onClick={handleSignin}>ENTRA!</Link>
         <Switch>
-          <Route path="/signin">
+          <Route path="/login">
             <Modals/>
           </Route>
-          <Route path="/signup">
+          <Route path="/register">
             <Modals/>
           </Route>
-          <Route path="/signup">
+          <Route path="/event">
             <Event/>
           </Route>
         </Switch>

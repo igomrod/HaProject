@@ -45,7 +45,7 @@ alter table organizers add constraint pk_organizers primary key (id_organizer);
 alter table participants add constraint pk_participants primary key (id_participant);
 
 /* FK */
-ALTER TABLE runrun.events ADD id_organizer serial NOT NULL;
+ALTER TABLE runrun.events ADD id_organizer int4 NOT NULL;
 ALTER TABLE runrun.events ADD CONSTRAINT events_fk FOREIGN KEY (id_organizer) REFERENCES runrun.organizers(id_organizer);
 ALTER TABLE runrun.participants ADD id_event int4 NOT NULL;
 ALTER TABLE runrun.participants ADD CONSTRAINT participants_fk FOREIGN KEY (id_event) REFERENCES runrun.events(id_event);

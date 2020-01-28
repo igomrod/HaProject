@@ -1,11 +1,21 @@
 const { Pool } = require('pg')
-const pool = new Pool({
+// Verificamos datos de BD, y creamos pool
+const connectionString = process.env.DATABASE_URL
+if (!connectionString) {
+  console.error('No se ha definido DATABASE_URL!')
+  process.exit(1)
+}
+const pool = new Pool({ connectionString })
+
+module.exports = pool
+
+/*const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
   database: 'runrundb',
   password: '123456',
   port: 5432,
-})
+})*/
 
 
 

@@ -25,7 +25,7 @@ const SignUp = () => {
     const user = { name, surname, email, password }
     setError(false)
     try {
-      const ret = await fetch('http://localhost:8080/users', {
+      const ret = await fetch('http://www.runrun.org.es', {
         method: 'POST',
         body: JSON.stringify(user),
         headers: {
@@ -35,7 +35,8 @@ const SignUp = () => {
       })
       const data = await ret.json()
       localStorage.setItem('token', data.token) // Esto solo en login, para guardar el token
-      history.push(`/users/${data.id}`)
+      
+      history.push(`/profile`)
     } catch (err) {
       console.warn('Error:', err)
       setError(true)
