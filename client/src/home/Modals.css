@@ -1,11 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-
-* {
+    
+.modal-background {
     font-family: 'Montserrat';
-}
-
-
-.loginModal-background {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -18,39 +14,38 @@
     justify-content: center;
     transition: 1.8s;
 }
-.loginModal-foreground {
+.modal-foreground {
     border: none;
     width: 50%;
-    background-color: rgb(255, 255, 255, 1);
+    background-color: rgb(255, 255, 255, 0.7);
     border-radius: 10px;
     font-size: calc(5px + 1vmin);
-
 }
 
 @media (max-width:768px){
-    .loginModal-foreground {
-        width: 100vw;
+    .modal-foreground {
+        min-width: 100vw;
         min-height: 100vh;
         border-radius: 0;
     }
-        
 }
 
-
 .signin-form {
-
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     flex: 1 1 auto;
-  
 }
-.signin-form formHeading {
+.signin-form .formHeading {
     font-size: 2em;
 }
 .login-form {
     flex: 1 1 auto;
+}
+.login-form h3 {
+    text-align: center;
+    margin-top: 0%;
 }
 
 .signup-form {

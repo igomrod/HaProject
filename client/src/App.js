@@ -1,29 +1,34 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import { Provider, useSelector, useDispatch } from 'react-redux'
-import LoginModal from './home/LoginModal'
+import Modals from './home/Modals'
 import './App.css';
 import generateStore from './reducers'
-import Private from './private/Private'
+import Event from './private/Event'
 
 const Content = () => {
   const dispatch = useDispatch()
   const user = useSelector(s => s.user)
-  const handleLogin = () => dispatch({ type: 'showModal', modalType: 'login' })
+  const handleSignin = () => dispatch({ type: 'showModal', modalType: 'signin' })
 
   return (
     <div className="App">
-      {user && <Private />}
+      {user && <Event />}
       <header className="App-header">
         <h1 className='title'>RUN-RUN</h1>
-
       </header>
       <main className="App-main">
         <h2 className="subtitle">Bienvenido/a al Gestor de Dorsales</h2>
-        <Link to="/login" className="entrar" onClick={handleLogin}>ENTRA!</Link>
+        <Link to="/signin" className="entrar" onClick={handleSignin}>ENTRA!</Link>
         <Switch>
-          <Route path="/login">
-            <LoginModal />
+          <Route path="/signin">
+            <Modals/>
+          </Route>
+          <Route path="/signup">
+            <Modals/>
+          </Route>
+          <Route path="/signup">
+            <Event/>
           </Route>
         </Switch>
         <footer>
