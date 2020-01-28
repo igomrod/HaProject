@@ -1,0 +1,6 @@
+Tipo_DORSAL,Sexo_CORREDOR,Nombre_CORREDOR,Apellidos_CORREDOR,Email_CORREDOR,DNI_CORREDOR, Fecha_nacimiento_CORREDOR,Nombre_EQUIPO,Nombre_TUTOR,Apellidos_TUTOR,Email_TUTOR,DNI_TUTOR,RELACION
+Dorsal diversidad,Hombre,Homer,Simpson,homer@simpson.com,00000001A,1/1/1960,The Simpsons,,,,,
+Dorsal diversidad,Mujer,Marge,Simpson,marge@simpson.com,00000002A,2/2/1965,The Simpsons,,,,,
+Dorsal menores,Mujer,Lisa,Simpson,,,3/3/1985,The Simpsons,Homer,Simpson,homer@simpson.com,00000001A,Padre
+Dorsal diversidad,Hombre,Ned,Flanders,ned@flanders.com,00000004A,4/4/1960,,,,,,
+Dorsal menores,Hombre,Milhouse,Van Houten,,,5/5/1985,,Luann,Van Houten,luann@vanhouten.com,00000006A,Madre

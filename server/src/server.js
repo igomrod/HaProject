@@ -31,8 +31,6 @@ const urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 
 
-
-
 // Endpoint para subir archivo:
 router.post('/upload', upload.single("file"), async (req, res) => {
 
@@ -84,6 +82,12 @@ router.post('/upload', upload.single("file"), async (req, res) => {
   fs.unlinkSync(req.file.path); // Borra archivo temporal.
   res.status(200).send();
 });
+
+// Endpoint para búsqueda de participantes:
+
+// Endpoint para asignación de dorsales:
+
+// Endpoint para borrado de eventos:
 
 app.use(router);
 
