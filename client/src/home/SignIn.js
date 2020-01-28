@@ -9,9 +9,12 @@ const SignIn = () => {
   const [password, setPassword] = useState()
   const handleSignUp = () => dispatch({ type: 'showModal', modalType: 'signup' })
   const handleClose = () => dispatch({ type: 'hideModal' })
+  const [isError, setError] = useState(false)
+
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch({ type: 'hideModal' })
+    setError(false)
     // Aquí haríamos fetch para hacer login, y
     // obtendríamos los datos del user y un token...
     console.log('Login:', email, password)
@@ -49,10 +52,10 @@ const SignIn = () => {
       <p>Si todavía no está registrado pulse <Link to='/signup' onClick={handleSignUp}>aquí</Link></p>
 
       <div className="buttonsContainer">
-        <button>Inicia Sesión</button>
+        <button><Link to='/event' className="initSesion">Inicia Sesión</Link></button>
         <button onClick={handleClose}>Cancelar</button>
       </div>
-
+      {isError && <div>Error, por favor inténtelo de nuevo</div>}
     </form>
   )
 }

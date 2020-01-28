@@ -73,8 +73,9 @@ footer{
   .App-main .subtitle{
     font-size: 2em;
   }
-  a{
+  .entrar{
     width: 50%;
+    height: 20%;
   }
   footer{
     font-size: 1em;

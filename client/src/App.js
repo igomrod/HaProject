@@ -4,7 +4,7 @@ import { Provider, useSelector, useDispatch } from 'react-redux'
 import Modals from './home/Modals'
 import './App.css';
 import generateStore from './reducers'
-import Profile from './private/Profile'
+import Event from './private/Event'
 
 const Content = () => {
   const dispatch = useDispatch()
@@ -13,7 +13,7 @@ const Content = () => {
 
   return (
     <div className="App">
-      {user && <Profile />}
+      {user && <Event />}
       <header className="App-header">
         <h1 className='title'>RUN-RUN</h1>
       </header>
@@ -26,6 +26,9 @@ const Content = () => {
           </Route>
           <Route path="/signup">
             <Modals/>
+          </Route>
+          <Route path="/signup">
+            <Event/>
           </Route>
         </Switch>
         <footer>

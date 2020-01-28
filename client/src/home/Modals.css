@@ -20,7 +20,6 @@
     background-color: rgb(255, 255, 255, 0.7);
     border-radius: 10px;
     font-size: calc(5px + 1vmin);
-
 }
 
 @media (max-width:768px){

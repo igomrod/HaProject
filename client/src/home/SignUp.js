@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router-dom'
 
 const useFormField = () => {
@@ -14,7 +15,6 @@ const SignUp = () => {
   const [email, setEmail] = useFormField()
   const [password, setPassword] = useFormField()
   const handleClose = () => dispatch({ type: 'hideModal' })
-
 
   const history = useHistory()
   const [isError, setError] = useState(false)
@@ -75,7 +75,7 @@ const SignUp = () => {
           name="email"
           required
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={setEmail}
         />
       </div>
       <div className="form-field">
@@ -89,11 +89,11 @@ const SignUp = () => {
           onChange={setPassword} />
       </div>
       <div className="buttonsContainer">
-        <button>Regístrate!</button>
+        <button><Link to='/event' className="registrate">Regístrate!</Link></button>
         <button onClick={handleClose}>Cancelar</button>
 
       </div>
-      {isError && <div>Error, please try again</div>}
+      {isError && <div>Error, por favor inténtelo de nuevo</div>}
     </form >
   )
 }
