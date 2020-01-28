@@ -26,7 +26,7 @@ const Event = () => {
     setError(false)
 
     try {
-      const ret = await fetch('http://localhost:8080/users', {
+      const ret = await fetch('http://www.runrun.org,es', {
         method: 'POST',
         body: JSON.stringify(),
         headers: {
