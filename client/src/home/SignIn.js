@@ -23,6 +23,7 @@ const SignIn = () => {
 
   return (
     <form className="login-form" onSubmit={handleSubmit}>
+      <h3 className='modalHeading'>Iniciar sesión</h3>
       <div className="form-field">
         <label className="fields" for='email'>Email:</label>
         <input

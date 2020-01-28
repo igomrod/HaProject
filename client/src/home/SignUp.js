@@ -44,8 +44,9 @@ const SignUp = () => {
 
   return (
     <form className="login-form" onSubmit={handleSubmit}>
+      <h3 className='modalHeading'>Registrarse</h3>
       <div className="form-field">
-        <label className="fields" for="name">Name:</label>
+        <label className="fields" for="name">Nombre:</label>
         <input
           id="name"
           type="text"
@@ -56,7 +57,7 @@ const SignUp = () => {
         />
       </div>
       <div className="form-field">
-        <label className="fields" for="surname">Surname:</label>
+        <label className="fields" for="surname">Apellidos:</label>
         <input
           id="surname"
           type="text"

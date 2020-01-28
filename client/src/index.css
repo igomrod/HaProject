@@ -85,3 +85,11 @@ button{
 button:hover {
   background-color:#0E563b;
 }
+
+@media (max-width:768px){
+  a{
+    width: 100%;
+  }
+
+}
+

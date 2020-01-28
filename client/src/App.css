@@ -3,6 +3,8 @@
 .App {
   text-align: center;
   min-height: 100vh;
+  background-image: url("./HaProject-Images/martins-zemlickis-NPFu4GfFZ7E-unsplash.jpg");
+  background-size: cover;
 }
 
 .App-header {
@@ -23,11 +25,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url("./HaProject-Images/martins-zemlickis-NPFu4GfFZ7E-unsplash.jpg");
-  background-size: cover;
-}
-.App-main .title{
-  font-weight: 900;
+  
 }
 .App-main .subtitle {
   font-weight: 900;
@@ -66,5 +64,20 @@ footer{
   width:97%;
   padding-right: 3%;
   font-size: 1.5em;;
+}
+
+@media (max-width:768px){
+  .App{
+    background-image: url("./HaProject-Images/lysander-yuen-LKaN_tqplEw-unsplash.jpg");
+  }
+  .App-main .subtitle{
+    font-size: 2em;
+  }
+  a{
+    width: 50%;
+  }
+  footer{
+    font-size: 1em;
+  }
 }
 

@@ -20,7 +20,6 @@ const Modals = () => {
     <div className="modal-background" onClick={handleClose}>
       <div className="modal-foreground" onClick={handleClick}>
           <div className="signin-form">
-            <h3 className='modalHeading'>Iniciar sesión</h3>
             <Modal />
           </div>
       </div>
