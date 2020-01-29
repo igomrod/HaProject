@@ -8,24 +8,12 @@ if (!connectionString) {
 }
 const pool = new Pool({ connectionString })
 
-module.exports = pool
 
 
-/*
-const { Pool } = require('pg')
-const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'runrundb',
-  password: '123456',
-  port: 5432,
-})
-
-*/
 
 const saveUsers = async (name, surname, email, password) => {
   const client = await pool.connect();
-
+  console.log('llegas aqui');
   let query = `SELECT email FROM runrun.organizers WHERE email = '${email}' `;
 
   let result = await pool.query(query);
@@ -67,5 +55,6 @@ const login = async (email) => {
 
 module.exports = {
   saveUsers,
-  login
+  login,
+  pool
 }

@@ -8,9 +8,9 @@ const router = express.Router();
 //const md_auth = require('../middlewares/authenticated');
 
 
-router.post('/register', controller.register );
-router.post('/login', controller.login);
-router.post('/events', controller.createEvent);
+router.post('/register/', controller.register);
+router.post('/login/', controller.login);
+router.post('/events/', controller.createEvent);
 router.delete('/events/:id', controller.deleteEvent);
 // router.get('/participants')
 // router.put('/participants/:id')

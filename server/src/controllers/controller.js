@@ -11,13 +11,12 @@ const validTokens = {};
 const register = async (req, res) => {
 
     const { name, surname, email, password } = req.body;
-
+    console.log(req.body)
     try {
         const hashedPassword = await bcrypt.hash(password, 12);
-
         const result = await db.saveUsers(name, surname, email, hashedPassword);
 
-        res.send();
+        res.send(result);
     } catch (e) {
         console.log(e.message);
         res.status(500).send(e);
@@ -70,7 +69,7 @@ const createEvent = async (req, res, next) => {
 
 // Función para búsqueda de participantes:
 
-const createEvent = async (req, res, next) => {
+const selectParticipant = async (req, res, next) => {
     const { rows } = await db.query(
         'SELECT * FROM users WHERE email = $1',
         [req.params.email]
@@ -270,7 +269,8 @@ module.exports = {
     register,
     login,
     createEvent,
-    deleteEvent
+    deleteEvent,
+    selectParticipant
 };
 
 

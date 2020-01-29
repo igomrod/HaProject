@@ -11,24 +11,20 @@ const upload = multer({ dest: "src/storage/" });
 const csv = require('csvtojson')
 const cors = require('cors')
 
-// const utils = require('./utils')
 const db = require('./db')
 
-const Router = express.Router;
+const routes = require('./routes/user')
 const app = express();
-const router = new Router();
+
 const server = http.createServer(app);
 const port = 3000;
 
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors())
 
-// Middleware de bodyParser, permitiendo el uso de Multer:
-const jsonParser = bodyParser.json()
-const urlencodedParser = bodyParser.urlencoded({ extended: false })
-
 // Endpoint para subir archivo:
-router.post('/upload', upload.single("file"), async (req, res) => {
+app.post('/upload', upload.single("file"), async (req, res) => {
 
   const csvObject = await csv({ ignoreEmpty: true }).fromFile(req.file.path)
   console.log(csvObject);
@@ -45,41 +41,39 @@ router.post('/upload', upload.single("file"), async (req, res) => {
       arrCSV.push(insertParticipant);
     });
     Promise.all(arrCSV).then(
-      res => {
+      response => {
         const arrCSV = [];
         // Buscar si tiene tutor:
         csvObject.forEach((element) => {
           if (element.Nombre_TUTOR) {
             const searchTutor = db.pool.query(`SELECT id_participant FROM runrun.participants WHERE participant_name = 
-            '${element.Nombre_TUTOR}' AND participant_surname = '${element.Apellidos_TUTOR}' AND participant_email = 
+            '${element.Nombre_TUTOR}' AND surname = '${element.Apellidos_TUTOR}' AND email = 
             '${element.Email_TUTOR}'`);
             // Actualizamos el participante con el ID del corredor que será su tutor:
             let assignTutor = db.pool.query(`UPDATE runrun.participants SET id_tutor = '${searchTutor}' WHERE participant_name =
-            '${element.Nombre_CORREDOR}' AND participant_surname = '${element.Apellidos_CORREDOR}' AND participant_email =
-            '${element.Email_CORREDOR}' AND participant_birthdate = '${element.Fecha_nacimiento_CORREDOR}`);
+            '${element.Nombre_CORREDOR}' AND surname = '${element.Apellidos_CORREDOR}' AND email =
+            '${element.Email_CORREDOR}' AND birthdate = '${element.Fecha_nacimiento_CORREDOR}`);
             arrCSV.push(assignTutor);
           }
           Promise.all(arrCSV).then(
-            res => {
-              client.release();
-              res.send();
+            response => {
+              fs.unlinkSync(req.file.path); // Borra archivo temporal.
+             res.send();
             },
-            err => res.send(err)
+            err => res.status(500).send(err.message)
           )
         });
       },
-      err => res.send(err)
+      err => res.status(500).send(err.message)
     )
 
   } catch (e) {
     res.status(400)
     res.json({ error: e.message })
   }
-  fs.unlinkSync(req.file.path); // Borra archivo temporal.
-  res.status(200).send();
 });
 
-app.use(router);
+app.use('/',routes);
 
 // Iniciamos el servidor:
 function startServer() {
