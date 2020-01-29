@@ -9,12 +9,12 @@ const authenticated = (req, res, next) => {
     // Comprobar si llega autorización
     if(!req.headers.authorization){
         return res.status(403).send({
-            message: 'La petición no tiene la cabecera de authorization'
+            message: 'La petición no tiene la cabecera de autorización'
         })
     }
 
-        // Limpiar el token y quitar comillas
-        //const token = req.headers.authorization.replace(/['"]+/g, '');
+        // Limpiar el token 
+        const token = req.headers.authorization.replace(/['"]+/g, '');
 
         try{
         // Decodificar token 
@@ -33,10 +33,7 @@ const authenticated = (req, res, next) => {
         });
     }
     
-    // Adjuntar usuario identificado a request
     req.id = payload.id;
-
-    // Pasar a la acción
     next();
 }
 
