@@ -50,176 +50,113 @@ const login = async (req, res) => {
 
     }
 
-// const controller = {
-
-//     probando: function(req, res){
-//         return res.status(200).send({
-//             message: "Probando"
-//         });
-//     },
-
-//     testeando: function(req, res){
-//         return res.status(200).send({
-//             message: "Testeando"
-//         });
-//     },
-
-//     save: function(req, res){
-//         // Recoger los parametros de la petición 
-//         const params = req.body;
-
-//         // Validar los datos
-//         const validate_name = !validator.isEmpty(params.name);
-//         const validate_surname = !validator.isEmpty(params.surname);
-//         const validate_email = !validator.isEmpty(params.email) && validator.isEmail(params.email);
-//         const validate_password = !validator.isEmpty(params.password);
-//         //console.log(validate_name, validate_surname, validate_email, validate_password);
-
-//         if(validate_name && validate_surname && validate_password && validate_email){
-
-//             // Crear objeto de usuario 
-//             const user = new user();
-
-//             // Asignar valores al usuario con los datos recibidos de la petición
-//             user.name = params.name;
-//             user.surname = params.surname;
-//             user.email = params.email;
-//             user.role = 'ROLE_USER';
-//             user.image = null;
-
-//             // Comprobar si el usuario existe
-//             User.findOne({email: user.email}, (err, issetUser) => {
-//                 if(err){
-//                     return res.status(500).send({
-//                         message: "Error al comprobar duplicidad de usuario"
-//                     });
-//                 }
-//                 if(!issetUser){
+     
 
 
-//                 // Si no existe, 
+    //Buscar usuarios que coincidan con el email
+    User.findOne({email: params.email.toLowerCase()}, (err, user) => {
 
-//                 // cifrar la contraseña 
-//                 bcrypt.hash(params.password, null, null, (err, hash) => {
-//                     user.password = hash;
+        if(err){
+            return res.status(500).send({
+                message: "Error al intentar identificarse",
+            });    
+        }
 
-//                     // y guardar usuarios 
-//                     user.save((err, userStored) => {
-//                         if(err){
-//                             return res.status(500).send({
-//                                 message: "Error al guardar el usuario"
-//                         });
-//                     }
+        if(!user){
+            return res.status(404).send({
+                message: "El usuario no existe",
+            }); 
+        }
+        //Si lo encuentra,
+            //Comprobar la contraseña (coincidencia de email y password / bcrypt)
+                bcrypt.compare(params.password, user.password, (err, check) => {
 
-//                     if(!userStored){
-//                         return res.status(400).send({
-//                             message: "El usuario no se ha guardado"
-//                         });
-//                     }
-//                     // Devolver respuesta
-//                         return res.status(200).send({
-//                             status: 'success',
-//                             user: userStored
-//                         });
+                //Si es correcto, 
+                if(check){
+                    //Generar datos de jwt y devolverlo
+                    if(params.gettoken){
 
-//                     }); //close save
-//                 });  //close bcrypt     
+                        //Devolver los datos
+                        return res.status(200).send({
+                            token:jwt.createToken(user)
+                        });
 
-//             }else{
-//                 return res.status(200).send({
-//                     message: "El usuario ya está registrado"
-//                 });
-//             }
-//         });
+                    else{
 
-//         }else{
-//             return res.status(200).send({
-//                 message: "Validación de los datos de usuario incorrecta, inténtelo otra vez"
-//             });
-//         }
-//     },
+                }    
+                //Limpiar objeto para que no devuelva la password a client
+                user.password = undefined;
 
-//     login: function(req, res){
-//         //Recoger los parámetros de la petición
-//         const params =req.body;
+                //Devolver los datos
+                    return res.status(200).send({
+                    status: "success",
+                    user
+                    });
+                }else{
 
-//         //Validar los datos
-//         const validate_email = !validator.isEmpty(params.email) && validator.isEmail(params.email);
-//         const validate_password = !validator.isEmpty(params.password);
+                return res.status(200).send({
+                    message: "Los datos introducidos no son correctos",
+                }); 
 
-//         if(!validate_email || !validate_password){
-//             return res.status(200).send({
-//                 message: "Los datos son incorrectos, envialos bien"
-//             });
-//         }
+        }
 
-//             //Buscar usuarios que coincidan con el email
-//             User.findOne({email: params.email.toLowerCase()}, (err, user) => {
+                        });
 
-//                 if(err){
-//                     return res.status(500).send({
-//                         message: "Error al intentar identificarse",
-//                     });    
-//                 }
+                    });
 
-//                 if(!user){
-//                     return res.status(404).send({
-//                         message: "El usuario no existe",
-//                     }); 
-//                 }
-//                 //Si lo encuentra,
-//                     //Comprobar la contraseña (coincidencia de email y password / bcrypt)
-//                     bcrypt.compare(params.password, user.password, (err, check) => {
 
-//                         //Si es correcto, 
-//                         if(check){
+//Actualizar datos usuarios
+update: function(req, res){
+//Recoger datos usuario
+const update = req.body;
 
-//                             //Generar datos de jwt y devolverlo
-//                             if(params.gettoken){
+//validar datos
+try{
+const validate_email = !validator.isEmpty(params.email) && validator.isEmail(params.email)
+}
+catch(err){
+    return res.status(200).send({
+    message: "Faltan datos por enviar"
+    
+    }); 
+}
+//Eliminar propiedades innecesarias
+delete params.password; 
 
-//                                 //Devolver los datos
-//                                 return res.status(200).send({
-//                                    token:jwt.createToken(user)
-//                                 });
+const usrId = req.user.sub;
 
-//                             }else{
+//Buscar y actualizar documento
+User.findOneAndUpdate({_id:userId}, params, {new:true}, (err, userUpdated) => {
+    
+    if(err){
+        return res.status(500).send({
+            status: 'err',
+            message: 'Error al actualizar usuario'
+            
+        }); 
+    }
 
-//                             }      
-//                                 //Limpiar objeto para que no devuelva la password a cliente
-//                                 user.password = undefined;
+    if(!userUpdated){
+        return res.status(200).send({
+            status: 'error',
+            user: 'No se ha actualizado el usuario'
+       }); 
+    }
 
-//                                 //Devolver los datos
-//                                 return res.status(200).send({
-//                                     status: "success",
-//                                     user
-//                                 });
-//                         }else{
+    return res.status(200).send({
+        status: "success",
+        user: userUpdated
+    }); 
+}
 
-//                             return res.status(200).send({
-//                                 message: "Los datos introducidos no son correctos",
-//                             }); 
 
-//                         }
+ 
 
-//                     });
-
-//                 });
-
-//             },
-//             update: function(req, res){
-//                 //1. Crear middleware para comprobar el jwt token, ponerselo a la ruta
-
-//                 return res.status(200).send({
-//                     message: "Metodo de actualizacion de datos de usuario"
-//                 }); 
-
-//             }
-// };
 
 module.exports = {
     register,
     login
-};
+}
 
 
 
