@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('../services/jwt');
 const db = require('../db');
 const validTokens = {};
+
 const register = async (req, res) => {
 
     const { name, surname, email, password } = req.body;
@@ -37,18 +38,67 @@ const login = async (req, res) => {
         if (!samePassword) {
             throw Error('Usuario incorrecto');
         }
-        
-        const payload = { id: user.id_organizer, exp: 300};
+
+        const payload = { id: user.id_organizer, exp: 300 };
         const secret = 'rijoiejgoiejo';
         const token = jwtToken.encode(payload, secret);
         validTokens[token];
         res.send(token);
-    }   catch(e) {
+    } catch (e) {
         console.log(e.message);
         res.send(500).send();
     }
 
+}
+
+// Función para crear eventos:
+
+const createEvent = async (req, res, next) => {
+    try {
+        const u = req.body
+        const { rows } = await db.query(
+            'INSERT INTO events(event_name, place, event_date, start_time) ' +
+            'VALUES ($1, $2, $3, $4) RETURNING *',
+            [u.evento, u.lugar, u.fecha, u.hora]
+        )
+        res.json(rows[0])
+    } catch (e) {
+        res.status(400)
+        res.json({ error: e.message })
     }
+}
+
+// Función para búsqueda de participantes:
+
+const createEvent = async (req, res, next) => {
+    const { rows } = await db.query(
+        'SELECT * FROM users WHERE email = $1',
+        [req.params.email]
+    )
+    if (rows.length) {
+        res.json(rows[0])
+    } else {
+        res.status(404)
+        res.json(null)
+    }
+}
+
+// Función para asignación de dorsales:
+
+// Función para borrado de eventos:
+
+const deleteEvent = async (req, res, next) => {
+    const { rows } = await db.query(
+        'DELETE * FROM events WHERE id = $1',
+        [req.params.id]
+    )
+    if (rows.length) {
+        res.json(rows[0])
+    } else {
+        res.status(404)
+        res.json(null)
+    }
+}
 
 // const controller = {
 
@@ -65,7 +115,7 @@ const login = async (req, res) => {
 //     },
 
 //     save: function(req, res){
-//         // Recoger los parametros de la petición 
+//         // Recoger los parametros de la petición
 //         const params = req.body;
 
 //         // Validar los datos
@@ -77,7 +127,7 @@ const login = async (req, res) => {
 
 //         if(validate_name && validate_surname && validate_password && validate_email){
 
-//             // Crear objeto de usuario 
+//             // Crear objeto de usuario
 //             const user = new user();
 
 //             // Asignar valores al usuario con los datos recibidos de la petición
@@ -97,13 +147,13 @@ const login = async (req, res) => {
 //                 if(!issetUser){
 
 
-//                 // Si no existe, 
+//                 // Si no existe,
 
-//                 // cifrar la contraseña 
+//                 // cifrar la contraseña
 //                 bcrypt.hash(params.password, null, null, (err, hash) => {
 //                     user.password = hash;
 
-//                     // y guardar usuarios 
+//                     // y guardar usuarios
 //                     user.save((err, userStored) => {
 //                         if(err){
 //                             return res.status(500).send({
@@ -123,7 +173,7 @@ const login = async (req, res) => {
 //                         });
 
 //                     }); //close save
-//                 });  //close bcrypt     
+//                 });  //close bcrypt
 
 //             }else{
 //                 return res.status(200).send({
@@ -159,19 +209,19 @@ const login = async (req, res) => {
 //                 if(err){
 //                     return res.status(500).send({
 //                         message: "Error al intentar identificarse",
-//                     });    
+//                     });
 //                 }
 
 //                 if(!user){
 //                     return res.status(404).send({
 //                         message: "El usuario no existe",
-//                     }); 
+//                     });
 //                 }
 //                 //Si lo encuentra,
 //                     //Comprobar la contraseña (coincidencia de email y password / bcrypt)
 //                     bcrypt.compare(params.password, user.password, (err, check) => {
 
-//                         //Si es correcto, 
+//                         //Si es correcto,
 //                         if(check){
 
 //                             //Generar datos de jwt y devolverlo
@@ -184,7 +234,7 @@ const login = async (req, res) => {
 
 //                             }else{
 
-//                             }      
+//                             }
 //                                 //Limpiar objeto para que no devuelva la password a cliente
 //                                 user.password = undefined;
 
@@ -197,7 +247,7 @@ const login = async (req, res) => {
 
 //                             return res.status(200).send({
 //                                 message: "Los datos introducidos no son correctos",
-//                             }); 
+//                             });
 
 //                         }
 
@@ -211,14 +261,16 @@ const login = async (req, res) => {
 
 //                 return res.status(200).send({
 //                     message: "Metodo de actualizacion de datos de usuario"
-//                 }); 
+//                 });
 
 //             }
 // };
 
 module.exports = {
     register,
-    login
+    login,
+    createEvent,
+    deleteEvent
 };
 
 

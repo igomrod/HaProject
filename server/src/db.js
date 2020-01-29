@@ -1,4 +1,18 @@
 const { Pool } = require('pg')
+
+// Verificación de datos de DB y creación de pool:
+const connectionString = process.env.DATABASE_URL
+if (!connectionString) {
+  console.error('No se ha definido DATABASE_URL!')
+  process.exit(1)
+}
+const pool = new Pool({ connectionString })
+
+module.exports = pool
+
+
+/*
+const { Pool } = require('pg')
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
@@ -7,12 +21,12 @@ const pool = new Pool({
   port: 5432,
 })
 
-
+*/
 
 const saveUsers = async (name, surname, email, password) => {
   const client = await pool.connect();
 
-  let query = `select email from runrun.organizers where email = '${email}' `;
+  let query = `SELECT email FROM runrun.organizers WHERE email = '${email}' `;
 
   let result = await pool.query(query);
  
@@ -21,7 +35,7 @@ const saveUsers = async (name, surname, email, password) => {
     throw Error('Usuario existente');
   }
   console.log(name, surname, email, password);
-  query = `insert into runrun.organizers (organizer_name, surname, email, hash) 
+  query = `INSERT INTO runrun.organizers (organizer_name, surname, email, hash) 
   values ('${name}', '${surname}','${email}','${password}')`;
 
   result = await pool.query(query);
@@ -38,7 +52,7 @@ const saveUsers = async (name, surname, email, password) => {
 
 const login = async (email) => {
   const client = await pool.connect();
-  const query = `select * from runrun.organizers where email = '${email}'`;
+  const query = `SELECT * FROM runrun.organizers WHERE email = '${email}'`;
 
   const result = await pool.query(query);
   console.log('buenas');

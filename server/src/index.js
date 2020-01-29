@@ -1,9 +1,12 @@
+/*
+
+
 'use strict'
 
 
 
 const { Pool, Client } = require('pg')
-const connectionString = 'postgresql://dbuser:secretpassword@database.server.com:3211/mydb'
+const connectionString = process.env.DATABASE_URL
 const pool = new Pool({
   connectionString: connectionString,
 })
@@ -20,6 +23,4 @@ client.query('SELECT NOW()', (err, res) => {
   client.end()
 })
 
-
-
-
+*/

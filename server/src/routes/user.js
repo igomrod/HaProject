@@ -9,7 +9,12 @@ const router = express.Router();
 
 
 router.post('/register', controller.register );
-router.post('/login', controller.login); // 
+router.post('/login', controller.login);
+router.post('/events', controller.createEvent);
+router.delete('/events/:id', controller.deleteEvent);
+// router.get('/participants')
+// router.put('/participants/:id')
+
 
 //comprobar la autenticación
 
